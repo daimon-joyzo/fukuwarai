@@ -204,12 +204,22 @@
     const title = document.createElement('div');
     title.className = 'game-overlay__title';
     title.textContent = '福笑いを全画面でプレイ中';
+
+    const actions = document.createElement('div');
+    actions.className = 'game-overlay__actions';
+    const fullscreenBtn = document.createElement('button');
+    fullscreenBtn.type = 'button';
+    fullscreenBtn.className = 'game-overlay__action';
+    fullscreenBtn.textContent = 'ブラウザ全画面でプレイ';
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';
     closeBtn.className = 'game-overlay__close';
     closeBtn.textContent = '閉じる';
+    actions.appendChild(fullscreenBtn);
+    actions.appendChild(closeBtn);
+
     header.appendChild(title);
-    header.appendChild(closeBtn);
+    header.appendChild(actions);
 
     const body = document.createElement('div');
     body.className = 'game-overlay__body';
@@ -218,7 +228,7 @@
     panel.appendChild(body);
     overlay.appendChild(panel);
 
-    return { overlay, body, closeBtn };
+    return { overlay, panel, body, closeBtn, fullscreenBtn };
   };
 
   const showCompletionAlert = async () => {
@@ -248,7 +258,7 @@
     launcher.appendChild(openButton.render());
     space.appendChild(launcher);
 
-    const { overlay, body: overlayBody, closeBtn } = buildOverlayShell();
+    const { overlay, panel, body: overlayBody, closeBtn, fullscreenBtn } = buildOverlayShell();
     const container = document.createElement('div');
     container.className = 'game-container game-container--fullscreen';
     const canvasWrapper = document.createElement('div');
@@ -284,12 +294,26 @@
     const bgmUrl = await downloadAudio(bgmAttachment);
     const bgm = setupBgm(bgmUrl, volumeSlider);
 
+    const fullscreenApi = {
+      isEnabled: () => document.fullscreenEnabled,
+      isActive: () => Boolean(document.fullscreenElement),
+      request: (target) => target.requestFullscreen?.(),
+      exit: () => document.exitFullscreen?.(),
+    };
+
     const lockScroll = (locked) =>
       document.body.classList[locked ? 'add' : 'remove']('game-scroll-lock');
+
+    const exitFullscreenIfOwned = () => {
+      if (document.fullscreenElement && (document.fullscreenElement === overlay || document.fullscreenElement === panel)) {
+        fullscreenApi.exit();
+      }
+    };
 
     const hideOverlay = () => {
       overlay.classList.add('is-hidden');
       if (bgm && typeof bgm.pause === 'function') bgm.pause();
+      exitFullscreenIfOwned();
       lockScroll(false);
     };
 
@@ -300,7 +324,44 @@
       stage.container().focus();
     };
 
+    const syncFullscreenUi = () => {
+      fullscreenBtn.textContent = fullscreenApi.isActive()
+        ? 'ブラウザ全画面を終了'
+        : 'ブラウザ全画面でプレイ';
+    };
+
+    const setupFullscreen = () => {
+      if (!fullscreenApi.isEnabled()) {
+        fullscreenBtn.disabled = true;
+        fullscreenBtn.title = 'このブラウザは全画面 API に対応していません';
+        return;
+      }
+
+      fullscreenBtn.addEventListener('click', async () => {
+        try {
+          if (fullscreenApi.isActive()) {
+            await fullscreenApi.exit();
+          } else {
+            await fullscreenApi.request(panel);
+          }
+        } catch (e) {
+          console.warn('Failed to toggle fullscreen', e);
+        } finally {
+          syncFullscreenUi();
+        }
+      });
+
+      document.addEventListener('fullscreenchange', () => {
+        syncFullscreenUi();
+        if (!fullscreenApi.isActive()) {
+          stage.container().focus();
+        }
+      });
+    };
+
     showOverlay();
+    syncFullscreenUi();
+    setupFullscreen();
     closeBtn.addEventListener('click', hideOverlay);
     openButton.on('click', showOverlay);
 
