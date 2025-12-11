@@ -192,6 +192,35 @@
     return { container, completeBtn, volumeSlider };
   };
 
+  const buildOverlayShell = () => {
+    const overlay = document.createElement('div');
+    overlay.className = 'game-overlay';
+
+    const panel = document.createElement('div');
+    panel.className = 'game-overlay__panel';
+
+    const header = document.createElement('div');
+    header.className = 'game-overlay__header';
+    const title = document.createElement('div');
+    title.className = 'game-overlay__title';
+    title.textContent = '福笑いを全画面でプレイ中';
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'game-overlay__close';
+    closeBtn.textContent = '閉じる';
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+
+    const body = document.createElement('div');
+    body.className = 'game-overlay__body';
+
+    panel.appendChild(header);
+    panel.appendChild(body);
+    overlay.appendChild(panel);
+
+    return { overlay, body, closeBtn };
+  };
+
   const showCompletionAlert = async () => {
     if (typeof Swal !== 'function') return;
     await Swal.fire({
@@ -212,18 +241,28 @@
     if (!space) return event;
 
     space.innerHTML = '';
+    const launcher = document.createElement('div');
+    launcher.className = 'game-launcher';
+    launcher.textContent = '全画面モードで福笑いをプレイできます。';
+    const openButton = new kintoneUIComponent.Button({ text: '全画面でプレイ' });
+    launcher.appendChild(openButton.render());
+    space.appendChild(launcher);
+
+    const { overlay, body: overlayBody, closeBtn } = buildOverlayShell();
     const container = document.createElement('div');
-    container.className = 'game-container';
+    container.className = 'game-container game-container--fullscreen';
     const canvasWrapper = document.createElement('div');
-    canvasWrapper.className = 'game-stage';
+    canvasWrapper.className = 'game-stage game-stage--fullscreen';
     container.appendChild(canvasWrapper);
-    space.appendChild(container);
 
     const { container: controls, completeBtn, volumeSlider } = buildControls();
+    controls.classList.add('game-controls--fullscreen');
     container.appendChild(controls);
+    overlayBody.appendChild(container);
+    document.body.appendChild(overlay);
 
-    const width = canvasWrapper.clientWidth || 960;
-    const height = canvasWrapper.clientHeight || 540;
+    const width = canvasWrapper.clientWidth || window.innerWidth;
+    const height = canvasWrapper.clientHeight || window.innerHeight;
 
     const { stage, backgroundLayer, partsLayer } = buildKonvaStage(canvasWrapper, width, height);
 
@@ -245,6 +284,26 @@
     const bgmUrl = await downloadAudio(bgmAttachment);
     const bgm = setupBgm(bgmUrl, volumeSlider);
 
+    const lockScroll = (locked) =>
+      document.body.classList[locked ? 'add' : 'remove']('game-scroll-lock');
+
+    const hideOverlay = () => {
+      overlay.classList.add('is-hidden');
+      if (bgm && typeof bgm.pause === 'function') bgm.pause();
+      lockScroll(false);
+    };
+
+    const showOverlay = () => {
+      overlay.classList.remove('is-hidden');
+      if (bgm && typeof bgm.play === 'function') bgm.play();
+      lockScroll(true);
+      stage.container().focus();
+    };
+
+    showOverlay();
+    closeBtn.addEventListener('click', hideOverlay);
+    openButton.on('click', showOverlay);
+
     completeBtn.on('click', async () => {
       if (bgm) bgm.stop();
       const placements = serializePositions(nodes);
@@ -260,6 +319,7 @@
 
       await showCompletionAlert();
       unbindKeys();
+      hideOverlay();
       setTimeout(() => location.reload(), REFRESH_DELAY_MS);
     });
 
