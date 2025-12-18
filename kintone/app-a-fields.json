@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "code": "team_name",
+      "type": "SINGLE_LINE_TEXT",
+      "label": "チーム名",
+      "required": true,
+      "unique": true,
+      "noLabel": false
+    },
+    {
+      "code": "member_names",
+      "type": "MULTI_LINE_TEXT",
+      "label": "メンバー名",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "team_color",
+      "type": "SINGLE_LINE_TEXT",
+      "label": "チームカラー",
+      "required": false,
+      "noLabel": false,
+      "defaultValue": "#FF0000"
+    }
+  ]
+}
+

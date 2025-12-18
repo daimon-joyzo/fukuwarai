@@ -1,0 +1,51 @@
+[
+  {
+    "team_name": {
+      "value": "チーム赤"
+    },
+    "member_names": {
+      "value": "田中太郎\n佐藤花子\n鈴木一郎"
+    },
+    "team_color": {
+      "value": "#FF0000"
+    }
+  },
+  {
+    "team_name": {
+      "value": "チーム青"
+    },
+    "member_names": {
+      "value": "山田次郎\n高橋美咲\n伊藤健太"
+    },
+    "team_color": {
+      "value": "#0000FF"
+    }
+  },
+  {
+    "team_name": {
+      "value": "チーム緑"
+    },
+    "member_names": {
+      "value": "中村さくら\n小林大輔\n加藤優子"
+    },
+    "team_color": {
+      "value": "#00FF00"
+    }
+  },
+  {
+    "team_name": {
+      "value": "チーム黄"
+    },
+    "member_names": {
+      "value": "吉田明\n渡辺真理\n松本勇気"
+    },
+    "team_color": {
+      "value": "#FFFF00"
+    }
+  }
+]
+
+
+
+
+

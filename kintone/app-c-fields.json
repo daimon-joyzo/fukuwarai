@@ -1,0 +1,127 @@
+{
+  "properties": [
+    {
+      "code": "game_status",
+      "type": "RADIO_BUTTON",
+      "label": "ステータス",
+      "required": false,
+      "noLabel": false,
+      "options": {
+        "準備中": {
+          "label": "準備中",
+          "index": "0"
+        },
+        "プレイ中": {
+          "label": "プレイ中",
+          "index": "1"
+        },
+        "採点完了": {
+          "label": "採点完了",
+          "index": "2"
+        }
+      },
+      "defaultValue": "準備中"
+    },
+    {
+      "code": "space_game_area",
+      "type": "SPACER",
+      "label": "ゲーム画面エリア",
+      "noLabel": false
+    },
+    {
+      "code": "score_auto",
+      "type": "NUMBER",
+      "label": "自動採点スコア",
+      "required": false,
+      "noLabel": false,
+      "digit": false,
+      "min": "0",
+      "max": null,
+      "displayScale": null,
+      "unit": null,
+      "unitPosition": "BEFORE"
+    },
+    {
+      "code": "score_judge",
+      "type": "NUMBER",
+      "label": "審査員加点",
+      "required": false,
+      "noLabel": false,
+      "digit": false,
+      "min": "0",
+      "max": null,
+      "displayScale": null,
+      "unit": null,
+      "unitPosition": "BEFORE"
+    },
+    {
+      "code": "score_total",
+      "type": "CALC",
+      "label": "合計スコア",
+      "required": false,
+      "noLabel": false,
+      "expression": "score_auto + score_judge",
+      "format": "NUMBER",
+      "displayScale": null,
+      "hideExpression": false,
+      "unit": null,
+      "unitPosition": "BEFORE"
+    },
+    {
+      "code": "result_image",
+      "type": "FILE",
+      "label": "完成画像",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "play_log_json",
+      "type": "MULTI_LINE_TEXT",
+      "label": "プレイログ",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "img_base",
+      "type": "FILE",
+      "label": "背景画像（コピー）",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "img_parts",
+      "type": "FILE",
+      "label": "パーツ画像（コピー）",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "bgm_file",
+      "type": "FILE",
+      "label": "BGM（コピー）",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "target_coordinates",
+      "type": "MULTI_LINE_TEXT",
+      "label": "正解座標データ（コピー）",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "difficulty_weight",
+      "type": "NUMBER",
+      "label": "難易度係数（コピー）",
+      "required": false,
+      "noLabel": false,
+      "digit": false,
+      "min": "0",
+      "max": null,
+      "displayScale": null,
+      "unit": null,
+      "unitPosition": "BEFORE"
+    }
+  ]
+}
+

@@ -1,0 +1,40 @@
+[
+  {
+    "theme_name": {
+      "value": "おかめ"
+    },
+    "target_coordinates": {
+      "value": "[\n  {\n    \"name\": \"目1\",\n    \"x\": 300,\n    \"y\": 250\n  },\n  {\n    \"name\": \"目2\",\n    \"x\": 500,\n    \"y\": 250\n  },\n  {\n    \"name\": \"鼻\",\n    \"x\": 400,\n    \"y\": 350\n  },\n  {\n    \"name\": \"口\",\n    \"x\": 400,\n    \"y\": 450\n  }\n]"
+    },
+    "difficulty_weight": {
+      "value": "1.0"
+    }
+  },
+  {
+    "theme_name": {
+      "value": "ひょっとこ"
+    },
+    "target_coordinates": {
+      "value": "[\n  {\n    \"name\": \"目1\",\n    \"x\": 320,\n    \"y\": 240\n  },\n  {\n    \"name\": \"目2\",\n    \"x\": 480,\n    \"y\": 240\n  },\n  {\n    \"name\": \"鼻\",\n    \"x\": 400,\n    \"y\": 340\n  },\n  {\n    \"name\": \"口\",\n    \"x\": 400,\n    \"y\": 460\n  }\n]"
+    },
+    "difficulty_weight": {
+      "value": "1.2"
+    }
+  },
+  {
+    "theme_name": {
+      "value": "社長"
+    },
+    "target_coordinates": {
+      "value": "[\n  {\n    \"name\": \"目1\",\n    \"x\": 350,\n    \"y\": 230\n  },\n  {\n    \"name\": \"目2\",\n    \"x\": 450,\n    \"y\": 230\n  },\n  {\n    \"name\": \"鼻\",\n    \"x\": 400,\n    \"y\": 330\n  },\n  {\n    \"name\": \"口\",\n    \"x\": 400,\n    \"y\": 440\n  },\n  {\n    \"name\": \"眉毛1\",\n    \"x\": 350,\n    \"y\": 200\n  },\n  {\n    \"name\": \"眉毛2\",\n    \"x\": 450,\n    \"y\": 200\n  }\n]"
+    },
+    "difficulty_weight": {
+      "value": "1.5"
+    }
+  }
+]
+
+
+
+
+

@@ -1,0 +1,22 @@
+{
+  "name": "fukuwarai",
+  "version": "1.0.0",
+  "description": "kintone上で動作する福笑いゲームシステム",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "node kintone/deploy.js",
+    "import-sample": "node kintone/import-sample-data.js"
+  },
+  "keywords": [
+    "kintone",
+    "fukuwarai",
+    "game"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@kintone/rest-api-client": "^3.0.0"
+  },
+  "devDependencies": {}
+}
+

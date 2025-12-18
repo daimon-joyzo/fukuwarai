@@ -174,7 +174,24 @@
     const container = document.createElement('div');
     container.className = 'game-controls';
 
-    const completeBtn = new kintoneUIComponent.Button({ text: '配置完了', type: 'submit' });
+    // kintoneUIComponentが利用可能な場合は使用、そうでなければ通常のボタンを使用
+    let completeBtn;
+    if (typeof kintoneUIComponent !== 'undefined' && kintoneUIComponent.Button) {
+      completeBtn = new kintoneUIComponent.Button({ text: '配置完了', type: 'submit' });
+    } else {
+      // フォールバック: 通常のHTMLボタンを使用
+      completeBtn = document.createElement('button');
+      completeBtn.textContent = '配置完了';
+      completeBtn.type = 'button';
+      completeBtn.className = 'kuc-btn kuc-btn--submit';
+      completeBtn.style.padding = '8px 16px';
+      completeBtn.style.backgroundColor = '#3498db';
+      completeBtn.style.color = 'white';
+      completeBtn.style.border = 'none';
+      completeBtn.style.borderRadius = '4px';
+      completeBtn.style.cursor = 'pointer';
+    }
+
     const volumeLabel = document.createElement('label');
     volumeLabel.textContent = '音量';
     volumeLabel.className = 'volume-label';
@@ -187,7 +204,13 @@
 
     container.appendChild(volumeLabel);
     container.appendChild(volumeSlider);
-    container.appendChild(completeBtn.render());
+    
+    // kintoneUIComponentの場合はrender()を呼び出し、通常のボタンの場合は直接追加
+    if (typeof kintoneUIComponent !== 'undefined' && kintoneUIComponent.Button) {
+      container.appendChild(completeBtn.render());
+    } else {
+      container.appendChild(completeBtn);
+    }
 
     return { container, completeBtn, volumeSlider };
   };
@@ -245,7 +268,8 @@
     const bgmUrl = await downloadAudio(bgmAttachment);
     const bgm = setupBgm(bgmUrl, volumeSlider);
 
-    completeBtn.on('click', async () => {
+    // ボタンのイベントハンドラを設定（kintoneUIComponentか通常のボタンかで処理を分ける）
+    const handleComplete = async () => {
       if (bgm) bgm.stop();
       const placements = serializePositions(nodes);
       const scoreAuto = calculateScore(placements, targetCoordinates, difficultyWeight);
@@ -261,7 +285,14 @@
       await showCompletionAlert();
       unbindKeys();
       setTimeout(() => location.reload(), REFRESH_DELAY_MS);
-    });
+    };
+
+    // kintoneUIComponentの場合はon()メソッド、通常のボタンの場合はaddEventListenerを使用
+    if (typeof kintoneUIComponent !== 'undefined' && kintoneUIComponent.Button && completeBtn.on) {
+      completeBtn.on('click', handleComplete);
+    } else {
+      completeBtn.addEventListener('click', handleComplete);
+    }
 
     return event;
   };

@@ -1,0 +1,54 @@
+{
+  "properties": [
+    {
+      "code": "theme_name",
+      "type": "SINGLE_LINE_TEXT",
+      "label": "テーマ名",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "img_base",
+      "type": "FILE",
+      "label": "背景画像",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "img_parts",
+      "type": "FILE",
+      "label": "パーツ画像",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "bgm_file",
+      "type": "FILE",
+      "label": "BGM",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "target_coordinates",
+      "type": "MULTI_LINE_TEXT",
+      "label": "正解座標データ",
+      "required": false,
+      "noLabel": false
+    },
+    {
+      "code": "difficulty_weight",
+      "type": "NUMBER",
+      "label": "難易度係数",
+      "required": false,
+      "noLabel": false,
+      "defaultValue": "1",
+      "digit": false,
+      "min": "0",
+      "max": null,
+      "displayScale": null,
+      "unit": null,
+      "unitPosition": "BEFORE"
+    }
+  ]
+}
+
